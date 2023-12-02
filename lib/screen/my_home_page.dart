@@ -13,10 +13,16 @@ class MyHomePage extends StatelessWidget {
     // Avere widget separati per parti logiche separate della tua interfaccia
     // utente è un modo importante per gestire la complessità in Flutter.
     MyAppState appState = context.watch<MyAppState>();
-    // dichiaro qui sopra l'oggetto che mi serve senza portare dietro per tutto 
-    // il widget l'intero appState
+    // dichiaro qui l'oggetto che mi serve(pair) senza portare dietro per tutto 
+    // il widget l'intero appState(appState.current)
     WordPair pair = appState.current; 
 
+
+    /// text usato per il titolo pagina
+    final theme = Theme.of(context); 
+    final TextStyle textStyle = theme.textTheme.headlineSmall!.copyWith(
+      color: theme.colorScheme.secondary,
+    );
 
     IconData icon;
     if (appState.favorites.contains(pair)) {
@@ -25,33 +31,41 @@ class MyHomePage extends StatelessWidget {
       icon = Icons.favorite_border;
     }
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BigCard(pair: pair),
-            SizedBox(height: 10),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    appState.toggleFavorite();
-                  },
-                  icon: Icon(icon),
-                  label: Text('Like'),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    appState.getNext();
-                  },
-                  child: Text('Next'),
-                ),
-              ],
-            ),
-          ],
+    return Container(
+       /// SafeArea fa in modo che l'area di visualizzazione si restringa
+       /// in uno spazio tale che non entri in conflitto con la barra delle
+       /// notifiche, dei notch o degli stondamenti dei display
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("My Home Page", style: textStyle,),
+              Spacer(),
+              BigCard(pair: pair),
+              SizedBox(height: 10),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      appState.toggleFavorite();
+                    },
+                    icon: Icon(icon),
+                    label: Text('Like'),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      appState.getNext();
+                    },
+                    child: Text('Next'),
+                  ),
+                ],
+              ),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );
