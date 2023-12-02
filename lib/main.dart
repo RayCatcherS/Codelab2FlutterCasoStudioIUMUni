@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/provider.dart';
+import 'providers/app_providers.dart';
 import 'widgets/navigation.dart';
 
 void main() {
@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+    return MultiProvider(
+      providers: AppProvider.getAppStates(),
       child: MaterialApp(
         title: 'Namer App',
         theme: ThemeData(
