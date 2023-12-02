@@ -70,9 +70,6 @@ class FavoriteTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    final theme = Theme.of(context); 
-    
-
     return ListTile(
       leading: Icon(Icons.favorite),
       title: Text(pair.asLowerCase),
