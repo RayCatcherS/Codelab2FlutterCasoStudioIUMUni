@@ -13,7 +13,11 @@ dependencies:
     sdk: flutter
 
   english_words: ^4.0.0
-  provider: ^6.0.0
+  provider: ^6.1.1
+  firebase_core: ^2.24.0
+  firebase_auth: ^4.15.0
+  cloud_firestore: ^4.13.3
+  firebase_ui_auth: ^1.10.0 # Il pacchetto firebase_ui_auth fornisce una serie di widget e utilità per aumentare la velocità degli sviluppatori con il flusso di autenticazione.
 
 dev_dependencies:
   flutter_test:
