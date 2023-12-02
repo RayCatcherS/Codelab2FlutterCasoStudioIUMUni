@@ -1,3 +1,4 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,9 +9,9 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-
-    /// text usato per il titolo pagina
+    
     final theme = Theme.of(context); 
+    /// textStyle usato per il titolo pagina
     final TextStyle textStyle = theme.textTheme.headlineSmall!.copyWith(
       color: theme.colorScheme.secondary,
     );
@@ -47,16 +48,40 @@ class FavoritePage extends StatelessWidget {
                         '${appState.favorites.length} favorites:'),
                   ),
                   for (var pair in appState.favorites)
-                    ListTile(
-                      leading: Icon(Icons.favorite),
-                      title: Text(pair.asLowerCase),
-                    ),
+                    FavoriteTile(key: UniqueKey(), pair: pair)
                 ],
               ),
             ),
           ],
         ),
       )
+    );
+  }
+}
+
+class FavoriteTile extends StatelessWidget {
+  const FavoriteTile({
+    super.key,
+    required this.pair
+  });
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    final theme = Theme.of(context); 
+    
+
+    return ListTile(
+      leading: Icon(Icons.favorite),
+      title: Text(pair.asLowerCase),
+      trailing: ElevatedButton(
+        child: Text("Remove"),
+        onPressed: () {
+          appState.removeFavorite(pair);
+        },
+      ),
     );
   }
 }
