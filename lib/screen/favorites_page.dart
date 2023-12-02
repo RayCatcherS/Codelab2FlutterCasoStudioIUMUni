@@ -18,43 +18,49 @@ class FavoritePage extends StatelessWidget {
 
 
     if (appState.favorites.isEmpty) {
-      return SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Favorites Page", style: textStyle),
-              Spacer(),
-              Text('No favorites yet.'),
-              Spacer()
-            ],
+      return Container(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Favorites Page", style: textStyle),
+                Spacer(),
+                Text('No favorites yet.'),
+                Spacer()
+              ],
+            ),
           ),
         ),
       );
     }
 
-    return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Favorites Page", style: textStyle),
-            Expanded(
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text('You have '
-                        '${appState.favorites.length} favorites:'),
-                  ),
-                  for (var pair in appState.favorites)
-                    FavoriteTile(key: UniqueKey(), pair: pair)
-                ],
+    return Container(
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Favorites Page", style: textStyle),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text('You have '
+                          '${appState.favorites.length} favorites:'),
+                    ),
+                    for (var pair in appState.favorites)
+                      FavoriteTile(key: UniqueKey(), pair: pair)
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      )
+            ],
+          ),
+        )
+      ),
     );
   }
 }

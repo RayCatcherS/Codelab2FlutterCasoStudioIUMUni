@@ -32,6 +32,7 @@ class MyHomePage extends StatelessWidget {
     }
 
     return Container(
+      color: Theme.of(context).colorScheme.primaryContainer,
        /// SafeArea fa in modo che l'area di visualizzazione si restringa
        /// in uno spazio tale che non entri in conflitto con la barra delle
        /// notifiche, dei notch o degli stondamenti dei display
@@ -91,10 +92,22 @@ class BigCard extends StatelessWidget {
 
     return Card(
       color: theme.colorScheme.primary,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text(pair.asLowerCase, style: textStyle),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          child: Wrap(
+            children: [
+              Text(
+                pair.first,
+                style: textStyle.copyWith(fontWeight: FontWeight.w200),
+              ),
+              Text(
+                pair.second,
+                style: textStyle.copyWith(fontWeight: FontWeight.bold),
+              )
+            ],
+          )
         ),
       ),
     );
