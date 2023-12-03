@@ -33,7 +33,7 @@ class MyAppState extends ChangeNotifier {
 
   void toggleFavorite() {
     if (favorites.contains(current)) {
-      favorites.remove(current);
+      // remove favorite from server
     } else {
       favorites.add(current);
     }

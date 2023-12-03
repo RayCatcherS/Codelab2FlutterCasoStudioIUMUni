@@ -29,10 +29,18 @@ class FirestoreDatabase {
   } 
 
   static Future<void> addWordPair(WordPair wordPair) async {
-    
+    await FirebaseFirestore.instance
+    .collection('documents')
+    .doc('favorite')
+    .update({
+      'items': FieldValue.arrayUnion(['prova1', 'prova2'])
+    });
   }
 
   static Future<void> removeWordPair() async {
+     
     
+
+    return;
   }
 }

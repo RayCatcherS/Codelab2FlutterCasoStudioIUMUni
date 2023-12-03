@@ -17,8 +17,6 @@ Anche qui la fonte per configurare il progetto Firebase con sul progetto Flutter
 
 Per avviare i servizi Firebase sull'app flutter è stato seguito questo passaggio del codelab, che ho già fatto per voi, potete vederlo da [qui](https://firebase.google.com/codelabs/firebase-auth-in-flutter-apps?hl=it#2)
 
-
-
 ## Aggiungiamo il flusso di autenticazione
 
 Dopo aver configurato il progetto flutter con il progetto Firebase, iniziamo implementando il flusso di autenticazione sulla nostra app Flutter.
@@ -50,26 +48,21 @@ inputDecorationTheme: InputDecorationTheme(
 //...
 ```
 
-
-
 ## Configurare regole database Firestore
 
 - **Imposto Regola Firestore:** Nella sezione Rules nella pagina del gestione progetto firestore imposto le regole per accedere al database. Imposterò un vincolo sulla possibilità di scrivere e leggere i dati all'interno del database solo se l'utente che fa la richiesta è autenticato. Si può accedere attraverso l'interfaccia web del progetto in: Firestore Database -> Regole. Imposto quindi la regola:
-  
-  
-  ```dart
-  rules_version = '2';
-  // Allow read/write access on all documents to any user signed in to the application
-  service cloud.firestore {
-    match /databases/{database}/documents {
-      match /{document=**} {
-        allow read, write: if request.auth != null;
-      }
+
+```dart
+rules_version = '2';
+// Allow read/write access on all documents to any user signed in to the application
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
     }
   }
-  
-  
-  ```
+}
+```
 
 - Visualizziamo la struttura del database dalla pagina dall'interfaccia web di Firebase. La struttura del database Firestore è **Raccolta** --> **Documenti**, a sua volta ogni documento può avere un'altra raccolta con all'interno ancora dei documenti e così via. Visualizzare esempio ***città***.
 
@@ -78,35 +71,34 @@ inputDecorationTheme: InputDecorationTheme(
 Nella cartella `utils` del progetto ho inserito il file `firestore_database.dart` in cui implemento i metodi statici per ottenere e inviare le query al server.
 
 - `getWordPair()` ottieni con una semplice query il documento con tutte le wordpair memorizzate nel server Firebase
-  
-  
-  ```dart
-  //...
-  static Future<List<WordPair>> getWordPair() async {
-  
-      List<WordPair> wordPairs = [];
-  
-      DocumentSnapshot<Map<String, dynamic>> doc = 
-      await FirebaseFirestore.instance
-      .collection('documents')
-      .doc('favorite')
-      .get();
-  
-      // estrai i dati dall'oggetto doc
-      List<dynamic> rawData = doc.data()!['items'];
-  
-      // costruiamo la lista di Wordpair a partire dai dati estratti dal doc 
-      rawData.forEach((element) {
-        WordPair wordPair = WordPair(
-          element['first'], element['second']
-        );
-        wordPairs.add(wordPair);
-      });
-      
-      return wordPairs;
-  }
-  //... 
-  ```
+
+```dart
+//...
+static Future<List<WordPair>> getWordPair() async {
+
+    List<WordPair> wordPairs = [];
+
+    DocumentSnapshot<Map<String, dynamic>> doc = 
+    await FirebaseFirestore.instance
+    .collection('documents')
+    .doc('favorite')
+    .get();
+
+    // estrai i dati dall'oggetto doc
+    List<dynamic> rawData = doc.data()!['items'];
+
+    // costruiamo la lista di Wordpair a partire dai dati estratti dal doc 
+    rawData.forEach((element) {
+      WordPair wordPair = WordPair(
+        element['first'], element['second']
+      );
+      wordPairs.add(wordPair);
+    });
+
+    return wordPairs;
+}
+//... 
+```
 
 - `addWordPair(WordPair wordPair)` memorizza con una semplice query la nuova wordpair memorizzate nel documento Firebase delle wordpair.
 
