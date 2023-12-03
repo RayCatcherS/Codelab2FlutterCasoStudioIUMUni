@@ -8,7 +8,7 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    MyAppState appState = context.watch<MyAppState>();
     
     final theme = Theme.of(context); 
     /// textStyle usato per il titolo pagina
