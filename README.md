@@ -1,10 +1,6 @@
 # Punto di partenza caso studio
 
-## Secondo codelab
-
-Il primo codelab è raggiungibile tramite questo [link](https://github.com/RayCatcherS/CodelabFlutterUni).
-
-Il primo codelab sarà il punto di partenza per questo secondo codelab.
+Il primo codelab sarà il punto di partenza per questa seconda lezione.
 Questo repository contiene l'intero progetto di partenza Flutter per il caso di studio IUM. Oltre al progetto di partenza il repository contiene il codelab con la spiegazione di come sono state implementate le funzionalità di authentication e invio dei dati al server(Firestore).
 
 # Lezione 2
@@ -109,13 +105,16 @@ Nella cartella `utils` del progetto ho inserito il file `firestore_database.dart
       
       return wordPairs;
   }
-  //...
+  //... 
   ```
-  
-  
-  
+
+- `addWordPair(WordPair wordPair)` memorizza con una semplice query la nuova wordpair memorizzate nel documento Firebase delle wordpair.
+
+- `removeWordPair()` rimuovi con una semplice query una wordpair nel documento Firebase delle wordpair.
 
 ## Gestire stato dell'app
+
+##### Ottenere Wordpair nello stato
 
 - All'interno dello stato della nostra app `MyAppState` scriviamo un metodo per inizializzare le wordpair ottenute dal server firebase chiamato `initWordPairs`
 
@@ -143,3 +142,5 @@ MyAppState() {
   retrieveWordPairs();
 }
 ```
+
+##### Aggiungere una Wordpair dallo stato al server

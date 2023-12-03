@@ -46,7 +46,7 @@ class _NavigationState extends State<Navigation> {
               child: Icon(Icons.messenger_outline),
               label: Text('2'),
             ),
-            label: 'page 3',
+            label: 'User',
           ),
         ],
       ),

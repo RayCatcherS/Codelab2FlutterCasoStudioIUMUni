@@ -27,4 +27,12 @@ class FirestoreDatabase {
 
     return wordPairs;
   } 
+
+  static Future<void> addWordPair() async {
+    
+  }
+
+  static Future<void> removeWordPair() async {
+    
+  }
 }
