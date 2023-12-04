@@ -18,6 +18,7 @@ class MyHomePage extends StatelessWidget {
     WordPair pair = appState.current; 
 
 
+
     /// text usato per il titolo pagina
     final theme = Theme.of(context); 
     final TextStyle textStyle = theme.textTheme.headlineSmall!.copyWith(

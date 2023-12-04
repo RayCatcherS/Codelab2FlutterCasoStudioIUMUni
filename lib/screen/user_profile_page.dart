@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/my_app_state.dart';
@@ -38,6 +39,37 @@ class UserProfilePage extends StatelessWidget {
                       Text("Logout User")
                     ],
                   )
+                ),
+                Text('nome utente'),
+                TextField(
+                  controller: appState.TECName,
+                  inputFormatters: [
+                      //FilteringTextInputFormatter.allow(RegExp(r'^-?\d{0,5}')),
+                  ],
+                ),
+                TextField(
+                  controller: appState.TECSurname,
+                ),
+                TextField(
+                  controller: appState.TECEmail,
+                ),
+                TextField(
+                  controller: appState.TECMessage,
+                ),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: (){
+                        appState.sendForm();
+                      }, child: Text('invio')
+                    ),
+                    ElevatedButton(
+                      onPressed: (){
+                        
+                      }, child: Text('cancela')
+                    ),
+
+                  ],
                 ),
                 Spacer()
               ],

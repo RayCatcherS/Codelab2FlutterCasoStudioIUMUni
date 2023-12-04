@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:english_words/english_words.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,26 @@ class MyAppState extends ChangeNotifier {
   List<WordPair> favorites = <WordPair>[];
   bool isWordpairRetrieved = false;
 
-  
+  TextEditingController TECName = TextEditingController();
+  TextEditingController TECSurname = TextEditingController();
+  TextEditingController TECEmail = TextEditingController();
+  TextEditingController TECMessage = TextEditingController();
+
+  Future<void> sendForm() async {
+    Map<String, dynamic> json;
+
+    json = {
+      'name' : TECName.text,
+      'surname' : TECSurname.text,
+      'email' : TECEmail.text,
+      'message' : TECMessage.text
+    };
+
+    await FirebaseFirestore.instance
+    .collection('forms')
+    .doc('iasdjuioadgfhbi')
+    .set(json);
+  }
 
   Future<void> retrieveWordPairs() async {
     isWordpairRetrieved = false;
