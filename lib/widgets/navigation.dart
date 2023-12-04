@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screen/favorites_page.dart';
 import '../screen/my_home_page.dart';
+import '../screen/user_profile_page.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -45,7 +46,7 @@ class _NavigationState extends State<Navigation> {
               child: Icon(Icons.messenger_outline),
               label: Text('2'),
             ),
-            label: 'page 3',
+            label: 'User',
           ),
         ],
       ),
@@ -55,13 +56,19 @@ class _NavigationState extends State<Navigation> {
 
   // Dato l'index ottieni un widget(le pagine da visualizzare) 
   Widget getNavigationPage(int index) {
-
-    if(index == 0) {
-      return MyHomePage();
-    } else if(index == 1) {
-      return FavoritePage();
-    } else {
-      return SafeArea(child: Container(child: Text("No page for this index")));
+    Widget page;
+    switch(index) {
+      case 0:
+        page = MyHomePage();
+      case 1:
+        page = FavoritePage();
+      case 2:
+        page = UserProfilePage();
+      default: 
+        page = SafeArea(child: Container(child: Text("No page for this index")));
+        break;
     }
+
+    return page;
   }
 }

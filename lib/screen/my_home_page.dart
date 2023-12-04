@@ -2,7 +2,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/provider.dart';
+import '../providers/my_app_state.dart';
 
 
 
@@ -32,6 +32,7 @@ class MyHomePage extends StatelessWidget {
     }
 
     return Container(
+      color: Theme.of(context).colorScheme.primaryContainer,
        /// SafeArea fa in modo che l'area di visualizzazione si restringa
        /// in uno spazio tale che non entri in conflitto con la barra delle
        /// notifiche, dei notch o degli stondamenti dei display
@@ -48,9 +49,10 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
+                    
+                    onPressed: appState.isWordpairRetrieved ?() {
                       appState.toggleFavorite();
-                    },
+                    } : null,
                     icon: Icon(icon),
                     label: Text('Like'),
                   ),
@@ -91,10 +93,22 @@ class BigCard extends StatelessWidget {
 
     return Card(
       color: theme.colorScheme.primary,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text(pair.asLowerCase, style: textStyle),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          child: Wrap(
+            children: [
+              Text(
+                pair.first,
+                style: textStyle.copyWith(fontWeight: FontWeight.w200),
+              ),
+              Text(
+                pair.second,
+                style: textStyle.copyWith(fontWeight: FontWeight.bold),
+              )
+            ],
+          )
         ),
       ),
     );

@@ -2,13 +2,13 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/provider.dart';
+import '../providers/my_app_state.dart';
 
 class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    MyAppState appState = context.watch<MyAppState>();
     
     final theme = Theme.of(context); 
     /// textStyle usato per il titolo pagina
@@ -18,43 +18,49 @@ class FavoritePage extends StatelessWidget {
 
 
     if (appState.favorites.isEmpty) {
-      return SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Favorites Page", style: textStyle),
-              Spacer(),
-              Text('No favorites yet.'),
-              Spacer()
-            ],
+      return Container(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Favorites Page", style: textStyle),
+                Spacer(),
+                Text('No favorites yet.'),
+                Spacer()
+              ],
+            ),
           ),
         ),
       );
     }
 
-    return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Favorites Page", style: textStyle),
-            Expanded(
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text('You have '
-                        '${appState.favorites.length} favorites:'),
-                  ),
-                  for (var pair in appState.favorites)
-                    FavoriteTile(key: UniqueKey(), pair: pair)
-                ],
+    return Container(
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Favorites Page", style: textStyle),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text('You have '
+                          '${appState.favorites.length} favorites:'),
+                    ),
+                    for (var pair in appState.favorites)
+                      FavoriteTile(key: UniqueKey(), pair: pair)
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      )
+            ],
+          ),
+        )
+      ),
     );
   }
 }
