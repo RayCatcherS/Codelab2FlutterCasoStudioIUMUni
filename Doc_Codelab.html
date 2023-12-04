@@ -1249,10 +1249,8 @@ pre[class*="language-"] {
 </head>
 <body>
   <article class="markdown-body"><h1 class="atx" id="punto-di-partenza-caso-studio">Punto di partenza caso studio</h1>
-<h2 class="atx" id="secondo-codelab">Secondo codelab</h2>
-<p>Il primo codelab è raggiungibile tramite questo <a href="https://github.com/RayCatcherS/CodelabFlutterUni">link</a>.</p>
-<p>Il primo codelab sarà il punto di partenza per questo secondo codelab.
-Questo repository contiene l'intero progetto di partenza Flutter per il caso di studio IUM. Oltre al progetto di partenza il repository contiene il codelab con la spiegazione di come sono state implementate le funzionalità di authentication e invio dei dati al server(Firestore).</p>
+<p>Il primo codelab sarà il punto di partenza per questa seconda lezione.
+Questo repository contiene l'intero progetto di partenza Flutter per il caso di studio IUM. Oltre al progetto di partenza il repository contiene questo doc con la spiegazione di come sono state implementate le funzionalità di authentication e invio dei dati al server(Firestore).</p>
 <h1 class="atx" id="lezione-2">Lezione 2</h1>
 <h2 class="atx" id="creazione-progetto-firebase">Creazione progetto Firebase</h2>
 <p>Prima di illustrare come implementare authentication e collegamento con i servizi Firestore(database), ho già creato un nuovo progetto sulla piattaforma cloud Firebase collegandolo al progetto di partenza per il caso di studio flutter. Partendo da <a href="https://firebase.google.com/codelabs/firebase-get-to-know-flutter?hl=it#2">questo codelab Google</a>.</p>
@@ -1293,9 +1291,7 @@ service cloud<span class="token punctuation">.</span>firestore <span class="toke
       allow read<span class="token punctuation">,</span> write<span class="token punctuation">:</span> <span class="token keyword">if</span> request<span class="token punctuation">.</span>auth <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-</code></pre>
+<span class="token punctuation">}</span></code></pre>
 <ul>
 <li>Visualizziamo la struttura del database dalla pagina dall'interfaccia web di Firebase. La struttura del database Firestore è <strong>Raccolta</strong> --&gt; <strong>Documenti</strong>, a sua volta ogni documento può avere un'altra raccolta con all'interno ancora dei documenti e così via. Visualizzare esempio <strong><em>città</em></strong>.</li>
 </ul>
@@ -1328,12 +1324,31 @@ service cloud<span class="token punctuation">.</span>firestore <span class="toke
 
     <span class="token keyword">return</span> wordPairs<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-<span class="token comment">//...</span></code></pre>
+<span class="token comment">//... </span></code></pre>
+<ul>
+<li><code>addWordPair(WordPair wordPair)</code> memorizza con una semplice query la nuova wordpair memorizzate nel documento Firebase delle wordpair. Utilizziamo questa struttura per accedere alle informazioni e la continuiamo a rispettare(firestore no vincoli no schema su come deve essere la struttura, quindi il programmatore deve gestire questo aspetto)</li>
+</ul>
+<pre><code class="fenced-code-block language-dart"><span class="token comment">//...</span>
+<span class="token keyword">static</span> <span class="token class-name">Future</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token keyword">void</span><span class="token punctuation">&gt;</span></span> <span class="token function">addWordPair</span><span class="token punctuation">(</span><span class="token class-name">WordPair</span> wordPair<span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+  <span class="token keyword">await</span> <span class="token class-name">FirebaseFirestore</span><span class="token punctuation">.</span>instance
+  <span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">'documents'</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">doc</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">'favorite'</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token string-literal"><span class="token string">'items'</span></span><span class="token punctuation">:</span> <span class="token class-name">FieldValue</span><span class="token punctuation">.</span><span class="token function">arrayUnion</span><span class="token punctuation">(</span>
+      <span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token string-literal"><span class="token string">'first'</span></span> <span class="token punctuation">:</span> wordPair<span class="token punctuation">.</span>first<span class="token punctuation">,</span><span class="token string-literal"><span class="token string">'second'</span></span> <span class="token punctuation">:</span> wordPair<span class="token punctuation">.</span>second<span class="token punctuation">}</span><span class="token punctuation">]</span>
+     <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//... </span></code></pre>
+<ul>
+<li><code>removeWordPair()</code> rimuovi con una semplice query una wordpair nel documento Firebase delle wordpair.</li>
+</ul>
 <h2 class="atx" id="gestire-stato-delland39app">Gestire stato dell'app</h2>
+<h5 class="atx" id="ottenere-wordpair-nello-stato">Ottenere Wordpair nello stato</h5>
 <ul>
 <li><p>All'interno dello stato della nostra app <code>MyAppState</code> scriviamo un metodo per inizializzare le wordpair ottenute dal server firebase chiamato <code>initWordPairs</code></p>
 </li>
-<li><p><code>isWordpairInitialized</code> Servirà a far visualizzare un caricamento se sarà false, altrimenti se sarà true la lista di word pair sarà pronta per essere visualizzata.</p>
+<li><p><code>isWordpairInitialized</code> Servirà rappresentare un caricamento se sarà false, altrimenti la lista di word pair sarà pronta per essere visualizzata. Questa variabile verrà inoltra usata ogni qualvolta che si effettono modiche sul database e fin quando queste non saranno sincronizzate con lo stato della nostra app. </p>
 </li>
 <li><p><code>notifyListeners();</code> andrà a notificare il widget che osserva sullo stato dell'operazione</p>
 </li>
@@ -1354,6 +1369,16 @@ service cloud<span class="token punctuation">.</span>firestore <span class="toke
   <span class="token comment">// Chiamare initWordPairs nel costruttore</span>
   <span class="token function">retrieveWordPairs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<h5 class="atx" id="aggiungere-una-wordpair-dallo-stato-al-server">Aggiungere una Wordpair dallo stato, al server</h5>
+<ul>
+<li><p>In <code>toggleFavorite()</code> aggiungeremo o rimuoveremo una wordpair</p>
+</li>
+<li><p>In <code>removeFavorite()</code> rimuoveremo una wordpair</p>
+</li>
+<li><p>Lo stato della variabile <code>isWordpairRetrieved</code> ci permetterà di disattivare il bottone <code>like</code> per tutto il tempo che stiamo effettuando operazioni sul database, e quindi i dati sulla nostra app non possono essere modificati o visualizzati.(Si possono chiaramente usare varie strategie). 
+Altra cosa che si potrebbe fare potrebbe essere visualizzare una barra di caricamento al posto della lista delle wordpair per tutto il tempo che stiamo effettuando una modifica sul database firestore.</p>
+</li>
+</ul>
 </article>
 </body>
 </html>

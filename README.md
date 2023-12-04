@@ -100,7 +100,22 @@ static Future<List<WordPair>> getWordPair() async {
 //... 
 ```
 
-- `addWordPair(WordPair wordPair)` memorizza con una semplice query la nuova wordpair memorizzate nel documento Firebase delle wordpair.
+- `addWordPair(WordPair wordPair)` memorizza con una semplice query la nuova wordpair memorizzate nel documento Firebase delle wordpair. Utilizziamo questa struttura per accedere alle informazioni e la continuiamo a rispettare(firestore no vincoli no schema su come deve essere la struttura, quindi il programmatore deve gestire questo aspetto)
+
+```dart
+//...
+static Future<void> addWordPair(WordPair wordPair) async {
+  await FirebaseFirestore.instance
+  .collection('documents')
+  .doc('favorite')
+  .update({
+    'items': FieldValue.arrayUnion(
+      [{'first' : wordPair.first,'second' : wordPair.second}]
+     )
+  });
+}
+//... 
+```
 
 - `removeWordPair()` rimuovi con una semplice query una wordpair nel documento Firebase delle wordpair.
 
@@ -110,7 +125,7 @@ static Future<List<WordPair>> getWordPair() async {
 
 - All'interno dello stato della nostra app `MyAppState` scriviamo un metodo per inizializzare le wordpair ottenute dal server firebase chiamato `initWordPairs`
 
-- `isWordpairInitialized` Servirà a far visualizzare un caricamento se sarà false, altrimenti se sarà true la lista di word pair sarà pronta per essere visualizzata.
+- `isWordpairInitialized` Servirà rappresentare un caricamento se sarà false, altrimenti la lista di word pair sarà pronta per essere visualizzata. Questa variabile verrà inoltra usata ogni qualvolta che si effettono modiche sul database e fin quando queste non saranno sincronizzate con lo stato della nostra app. 
 
 - `notifyListeners();` andrà a notificare il widget che osserva sullo stato dell'operazione
 
@@ -135,4 +150,11 @@ MyAppState() {
 }
 ```
 
-##### Aggiungere una Wordpair dallo stato al server
+##### Aggiungere una Wordpair dallo stato, al server
+
+- In `toggleFavorite()` aggiungeremo o rimuoveremo una wordpair
+
+- In `removeFavorite()` rimuoveremo una wordpair
+
+- Lo stato della variabile `isWordpairRetrieved` ci permetterà di disattivare il bottone `like` per tutto il tempo che stiamo effettuando operazioni sul database, e quindi i dati sulla nostra app non possono essere modificati o visualizzati.(Si possono chiaramente usare varie strategie). 
+  Altra cosa che si potrebbe fare potrebbe essere visualizzare una barra di caricamento al posto della lista delle wordpair per tutto il tempo che stiamo effettuando una modifica sul database firestore.

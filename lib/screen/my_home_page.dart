@@ -49,9 +49,10 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
+                    
+                    onPressed: appState.isWordpairRetrieved ?() {
                       appState.toggleFavorite();
-                    },
+                    } : null,
                     icon: Icon(icon),
                     label: Text('Like'),
                   ),

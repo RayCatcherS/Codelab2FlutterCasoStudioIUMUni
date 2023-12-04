@@ -39,12 +39,6 @@ class UserProfilePage extends StatelessWidget {
                     ],
                   )
                 ),
-                ElevatedButton(
-                  onPressed: () {
-
-                  }, 
-                  child: Text("Debug")
-                ),
                 Spacer()
               ],
             ),

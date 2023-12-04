@@ -33,13 +33,24 @@ class FirestoreDatabase {
     .collection('documents')
     .doc('favorite')
     .update({
-      'items': FieldValue.arrayUnion(['prova1', 'prova2'])
+      'items': FieldValue.arrayUnion([
+        {'first' : wordPair.first,'second' : wordPair.second}
+        ])
     });
   }
 
-  static Future<void> removeWordPair() async {
+  static Future<void> removeWordPair(WordPair wordPair) async {
      
-    
+    await FirebaseFirestore.instance
+    .collection('documents')
+    .doc('favorite')
+    .update({
+      'items' : FieldValue.arrayRemove([
+        {'first' : wordPair.first,'second' : wordPair.second}
+      ])
+    });
+
+    print("remove pair");
 
     return;
   }
